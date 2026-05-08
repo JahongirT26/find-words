@@ -4,7 +4,7 @@ import Hearts from "./Hearts";
 import { LIVES_COUNT } from "../../config/setting";
 import logo from '../assets/images/pics-to-words.svg'
 
-export default function GameHeader({value, max, errorsCount}) {
+export default function GameHeader({value = 0, max, errorsCount}) {
     return (
         <>
             <img 
@@ -18,7 +18,7 @@ export default function GameHeader({value, max, errorsCount}) {
             />
             <Hearts 
             count={LIVES_COUNT} 
-            value={/* errorsCount */}
+            value={0} // временно
             />
         </>
     );
