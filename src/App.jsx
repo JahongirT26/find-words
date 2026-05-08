@@ -1,7 +1,10 @@
 import React from "react";
+import GameHeader from "./components/GameHeader";
 
 export default function App() {
     return(
-        <h1>Pics to Words</h1>
-    )
+        <section className="game">
+            <GameHeader title={'Pick to word'}/>
+        </section>
+    );
 }
