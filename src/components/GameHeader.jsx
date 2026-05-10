@@ -1,10 +1,10 @@
 import React from "react";
 import Progress from "./Progress";
 import Hearts from "./Hearts";
-import { LIVES_COUNT } from "../../config/setting";
+import { LIVES_COUNT } from "../config/setting";
 import logo from '../assets/images/pics-to-words.svg'
 
-export default function GameHeader({value = 0, max, errorsCount}) {
+export default function GameHeader({value = 0, max = 0, errorsCount = 0}) {
     return (
         <>
             <img 
@@ -18,7 +18,7 @@ export default function GameHeader({value = 0, max, errorsCount}) {
             />
             <Hearts 
             count={LIVES_COUNT} 
-            value={0} // временно
+            value={errorsCount}
             />
         </>
     );
