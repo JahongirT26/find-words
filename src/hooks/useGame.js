@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { LIVES_COUNT } from "../config/setting";
 
 export const useGame = (words) => {
-    const [finishedItems, setFinishedItems] = React.useState([]);
-    const [stepsCount, setStepsCount] = React.useState(0);
+    const [finishedItems, setFinishedItems] = useState([]);
+    const [stepsCount, setStepsCount] = useState(0);
 
     const checkItems = (firstItem, secondItem) => {
         const firstWord = words.find(({id}) => id === firstItem);

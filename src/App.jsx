@@ -1,10 +1,11 @@
-import React from "react";
-import GameHeader from "./components/GameHeader";
-import Grid from "./components/Grid";
-import Modal from "./components/Modal";
-import { useGame } from "./hooks/useGame";
+import React, { useState } from "react";
 
-export default function App({words = []}) {
+import { useGame } from "./hooks/useGame";
+import { APPROUTE } from "./config/setting";
+import ResultPage from "./components/ResultPage";
+import GamePage from "./components/GamePage";
+
+export default function App({words = [], results = []}) {
     const {
         finishedItems,
         handleReset,
@@ -14,21 +15,40 @@ export default function App({words = []}) {
         isWin
      } = useGame(words);
 
-    const modalClassName = isWin ? '' : 'modal-box-lose';
-    const modalCaption = isWin ? 'Победа' : 'Поражение';
-    const modalDescription = `Вы нашли ${finishedItems.length / 2} слова`;
+    const [page, setPage] = useState(APPROUTE.GAME);
+
+    const currentResult = finishedItems.length / 2;
+
+    const resetGame = () => {
+        handleReset();
+        setPage(APPROUTE.GAME);
+    }
+
+    const handleResult = () => {
+        setPage(APPROUTE.RESULT);
+    }
+
+    const getPage = (page) => {
+        switch(page) {
+            case APPROUTE.GAME:
+                return (<GamePage 
+                    isGameOver={isGameOver}
+                    showResult={handleResult}
+                    finishedItems={finishedItems} 
+                    words={words} 
+                    errorsCount={errorsCount}
+                    checkItems={checkItems}
+                    isWin={isWin}
+                />)
+            case APPROUTE.RESULT:
+                return <ResultPage results={results} onResetGame={resetGame} current={currentResult}/>
+            default:
+                return <div>404</div>
+        }
+    } 
 
     return (
-        <section className="game">
-            <GameHeader value={finishedItems.length} max={words.length} errorsCount={errorsCount} />
-            <Grid words={words} finishedItems={finishedItems} checkItems={checkItems} />
-            {isGameOver && (
-            <Modal className={modalClassName}>
-                <h3 className="modal-caption">{modalCaption}</h3>
-                <p className="modal-description">{modalDescription}</p>
-                <button onClick={handleReset} className="button" type="button">Новая игра</button>
-            </Modal>
-          )}
-        </section>
+        getPage(page)
     );
 }
+
